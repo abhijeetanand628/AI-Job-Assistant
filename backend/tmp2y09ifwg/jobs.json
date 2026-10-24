@@ -1,0 +1,15 @@
+[
+  {
+    "id": "a",
+    "title": "T",
+    "company": "C",
+    "location": "India",
+    "experience_required": "0",
+    "skills": [],
+    "description": "",
+    "source_url": "https://example.com",
+    "apply_url": "https://example.com/apply",
+    "workplace_type": "remote",
+    "source": "test"
+  }
+]

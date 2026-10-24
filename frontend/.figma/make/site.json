@@ -1,0 +1,10 @@
+{
+  "description": "This AI-powered job application assistant streamlines the job search process by helping users upload resumes, discover tailored job listings, and track applications effortlessly.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

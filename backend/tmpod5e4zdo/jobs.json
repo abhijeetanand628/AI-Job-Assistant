@@ -1,0 +1,17 @@
+[
+  {
+    "id": "test-job",
+    "title": "Junior Python Developer",
+    "company": "Example",
+    "location": "Bengaluru, India",
+    "experience_required": "0 years",
+    "skills": [
+      "Python"
+    ],
+    "description": "Build software",
+    "source_url": "https://example.com/jobs/1",
+    "apply_url": "https://example.com/jobs/1/apply",
+    "workplace_type": "remote",
+    "source": "test"
+  }
+]

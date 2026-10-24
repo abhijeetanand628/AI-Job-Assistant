@@ -1,0 +1,14 @@
+[
+  {"source":"greenhouse", "company":"Stripe", "slug":"stripe"},
+  {"source":"greenhouse", "company":"Figma", "slug":"figma"},
+  {"source":"greenhouse", "company":"Datadog", "slug":"datadog"},
+  {"source":"greenhouse", "company":"Cloudflare", "slug":"cloudflare"},
+  {"source":"greenhouse", "company":"Duolingo", "slug":"duolingo"},
+  {"source":"greenhouse", "company":"Coinbase", "slug":"coinbase"},
+  {"source":"greenhouse", "company":"Robinhood", "slug":"robinhood"},
+  {"source":"greenhouse", "company":"Airbnb", "slug":"airbnb"},
+  {"source":"greenhouse", "company":"Discord", "slug":"discord"},
+  {"source":"lever", "company":"Palantir", "slug":"palantir"},
+  {"source":"ashby", "company":"Ramp", "slug":"ramp"},
+  {"source":"ashby", "company":"Linear", "slug":"linear"}
+]
