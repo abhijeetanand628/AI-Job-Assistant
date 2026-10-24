@@ -33,9 +33,15 @@ export function ChatView({
 }) {
   const [draft, setDraft] = useState("");
   const [uploading, setUploading] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
+  const transcriptRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Keep first render at the top of the page. Later chat updates should
+    // scroll only the transcript, never the document or sticky page header.
+    if (!messages.length) return;
+    const transcript = transcriptRef.current;
+    if (transcript) {
+      transcript.scrollTo({ top: transcript.scrollHeight, behavior: "smooth" });
+    }
   }, [messages, busy]);
 
   const submit = async (event: FormEvent) => {
@@ -66,7 +72,7 @@ export function ChatView({
         <p>Upload your resume, refine roles in plain language, and track the ones you want to pursue.</p>
       </div>
       <div className="assistant-workspace">
-        <div className="assistant-transcript" aria-live="polite">
+        <div className="assistant-transcript" ref={transcriptRef} aria-live="polite">
           {messages.length === 0 ? (
             <div className="assistant-welcome">
               <span className="assistant-welcome-icon"><Icon name="spark" size={24} /></span>
@@ -87,7 +93,6 @@ export function ChatView({
             </article>
           ))}
           {busy && <article className="assistant-message assistant"><strong>AI Job Assistant</strong><p>Thinking…</p></article>}
-          <div ref={endRef} />
         </div>
         {messages.length > 0 && visibleJobs.length > 0 && (
           <section className="assistant-results" aria-label="Recommended jobs">

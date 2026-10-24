@@ -4,6 +4,14 @@ AI Job Assistant helps a person find jobs that fit their experience and skills. 
 
 This README explains the project in simple steps. You do not need to know how the code works to run the app.
 
+## Try the live project
+
+- **Website:** [AI Job Assistant](https://ai-job-assistant-phi.vercel.app/)
+- **Backend health check:** [API status and job count](https://ai-job-assistant-backend-x0qz.onrender.com/api/health)
+- **Source code:** [GitHub repository](https://github.com/abhijeetanand628/AI-Job-Assistant)
+
+The website is hosted on Vercel and the Python API is hosted on Render. The health check should return `status: "ok"` and the number of jobs loaded by the API. This demo has no sign-in and stores one shared profile, resume, and application tracker, so use sample information only.
+
 ## What the app does
 
 1. You upload a PDF or DOCX resume.
@@ -186,6 +194,8 @@ An API is a set of named actions that one program can ask another program to do.
 | `PATCH /api/applications/{id}` | Changes an application's status. |
 | `POST /api/chat` | Sends a message to the assistant. Gemini is optional. |
 
-## Assessment checklist
+## Sharing the project
 
-The local app, job catalogue, scraper, README, and application tracker are in the project. Before an assessment submission, the remaining owner tasks are to publish a public GitHub repository, deploy the app and provide its live link, and record the requested 3–5 minute demo. The assistant provides an application handoff; the person using it must submit the employer's form. Public job feeds do not provide access to submit forms: each employer controls its own application system and required questions. The app does not claim that opening a job page submitted a form. After submission, the user can mark the role Applied in the tracker.
+The live website, backend health check, and public source repository are linked at the top of this README. Before sharing the demo, make sure the backend is awake and the health check returns `status: "ok"`. Use sample profile and resume information because the demo has no sign-in and its saved data is shared.
+
+The assistant can save a job and open the employer's application page, but it cannot submit forms on other companies' websites. The person applying must submit the employer's form, then mark the job as Applied in the tracker.

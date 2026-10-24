@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "./lib/api";
 import type { Application, Job, Profile, Resume } from "./types";
 import { ApplicationsView } from "./components/applications/ApplicationsView";
@@ -26,6 +26,8 @@ type ChatLine = { role: "user" | "assistant"; content: string; href?: string; lo
 
 function App() {
   const [view, setView] = useState<View>("search");
+  const mainRef = useRef<HTMLElement>(null);
+  const lastView = useRef(view);
   const [profile, setProfile] = useState(blank);
   const [resume, setResume] = useState<Resume | null>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -63,6 +65,20 @@ function App() {
   useEffect(() => {
     void refresh();
   }, []);
+  useEffect(() => {
+    if (lastView.current === view) return;
+    lastView.current = view;
+    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [view]);
+  useEffect(() => {
+    if (!mobileNav) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileNav(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileNav]);
 
   const search = async (query: string) => {
     setLoading(true);
@@ -208,7 +224,12 @@ function App() {
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
       {mobileNav && (
-        <div className="scrim" onClick={() => setMobileNav(false)} />
+        <button
+          className="scrim"
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => setMobileNav(false)}
+        />
       )}
       <div className={mobileNav ? "sidebar-wrap open" : "sidebar-wrap"}>
         <Sidebar
@@ -219,14 +240,16 @@ function App() {
           }}
           profile={profile}
           count={applications.length}
+          onClose={() => setMobileNav(false)}
         />
       </div>
-      <main className="main">
+      <main className="main" ref={mainRef}>
         <PageHeader title={title} subtitle={subtitle}>
           <button
             className="context-toggle"
-            onClick={() => setMobileNav(true)}
-            aria-label="Open navigation"
+            onClick={() => setMobileNav((open) => !open)}
+            aria-label={mobileNav ? "Close navigation" : "Open navigation"}
+            aria-expanded={mobileNav}
           >
             <Icon name="menu" />
           </button>

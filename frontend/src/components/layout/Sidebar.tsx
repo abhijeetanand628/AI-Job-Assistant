@@ -7,14 +7,16 @@ export function Sidebar({
   setView,
   profile,
   count,
+  onClose,
 }: {
   view: View;
   setView: (view: View) => void;
   profile: Profile;
   count: number;
+  onClose: () => void;
 }) {
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" aria-label="App navigation">
       <div className="sidebar-top">
         <div className="brand">
           <span className="logo-mark">
@@ -22,15 +24,18 @@ export function Sidebar({
           </span>
           <span>AI Job Assistant</span>
         </div>
+        <button className="mobile-close" onClick={onClose} aria-label="Close navigation">
+          <Icon name="close" />
+        </button>
       </div>
       <nav className="nav-list" aria-label="Primary">
         {(
           [
             ["search", "search", "Job Search"],
-            ["chat", "spark", "Assistant chat"],
+            ["chat", "message", "Assistant chat"],
             ["applications", "briefcase", "Applications"],
             ["profile", "user", "Profile"],
-          ] as [View, "search" | "briefcase" | "user" | "spark", string][]
+          ] as [View, "search" | "briefcase" | "user" | "message", string][]
         ).map(([key, icon, label]) => (
           <button
             key={key}

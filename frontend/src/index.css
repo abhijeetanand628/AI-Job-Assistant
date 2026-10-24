@@ -1898,8 +1898,11 @@ h3,
   position: sticky;
   top: 0;
   z-index: 5;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.66);
+  -webkit-backdrop-filter: blur(20px) saturate(155%);
+  backdrop-filter: blur(20px) saturate(155%);
+  border-bottom-color: rgba(232, 228, 235, 0.72);
+  box-shadow: 0 8px 24px rgba(35, 22, 49, 0.055);
 }
 .search-bar {
   display: flex;
@@ -2157,24 +2160,232 @@ h3,
   .assistant-composer-tools { align-items: flex-start; flex-direction: column; gap: 4px; }
   .profile-extra-sections { grid-template-columns: 1fr; }
 }
+
+/* Responsive navigation and compact-screen layout refinements. */
 @media (max-width: 860px) {
   .sidebar-wrap {
     position: fixed;
-    inset: 0 auto 0 0;
+    inset: 0 0 0 auto;
     z-index: 31;
-    width: 252px;
-    transform: translateX(-105%);
-    transition: transform 0.2s ease;
+    width: min(360px, 88vw);
+    height: 100vh;
+    height: 100dvh;
+    transform: translateX(105%);
+    transition: transform 0.24s cubic-bezier(.2,.75,.25,1);
+    visibility: hidden;
+    pointer-events: none;
   }
   .sidebar-wrap.open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
   .sidebar-wrap .sidebar {
-    width: 252px;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    padding: max(20px, env(safe-area-inset-top)) 18px max(16px, env(safe-area-inset-bottom));
+    box-shadow: -18px 0 48px rgba(12, 5, 20, .28);
+  }
+  .sidebar-top {
+    padding-bottom: 22px;
+  }
+  .mobile-close {
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 11px;
+    color: white;
+    background: rgba(255,255,255,.08);
+  }
+  .scrim {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    cursor: default;
+  }
+  .context-toggle {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #e2dde5;
+    border-radius: 12px;
+    color: #55466a;
+    background: white;
+    box-shadow: 0 2px 8px rgba(35, 22, 49, .05);
+  }
+  .context-toggle:hover {
+    color: var(--purple);
+    border-color: #cbb8ed;
   }
   .main {
     width: 100%;
+    overflow-x: clip;
   }
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    min-height: 68px;
+    height: auto;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .topbar > div:first-child { min-width: 0; }
+  .topbar h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .topbar p {
+    max-width: min(68vw, 360px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .top-actions { gap: 0; }
+  .main .page-view {
+    height: auto;
+    min-height: calc(100dvh - 68px);
+    overflow: visible;
+    padding: 22px 14px max(26px, env(safe-area-inset-bottom));
+  }
+  .page-intro { margin-bottom: 16px; }
+  .search-bar { gap: 9px; }
+  .search-bar input { font-size: 14px; }
+  .main .job-list { grid-template-columns: minmax(0, 1fr); }
+  .main .job-card { min-width: 0; padding: 14px; }
+  .main .job-card-top { align-items: flex-start; }
+  .job-heading { min-width: 0; }
+  .job-heading h3 { overflow-wrap: anywhere; }
+  .match-badge { margin-left: auto; flex-shrink: 0; }
+  .job-actions { flex-wrap: wrap; }
+  .job-actions > * { flex: 1 1 auto; }
+  .notice { margin: 12px 14px 0; align-items: flex-start; }
+  .assistant-page { height: auto; min-height: calc(100dvh - 68px); }
+  .assistant-workspace { min-height: min(72dvh, 720px); }
+  .assistant-transcript { min-height: 220px; }
+  .assistant-composer { align-items: flex-end; }
+  .assistant-composer textarea { min-height: 40px; }
+  .assistant-composer-tools > span { max-width: 52%; text-align: right; }
+  .assistant-page > .assistant-intro {
+    display: block;
+    width: 100%;
+    margin: 0 auto 14px;
+  }
+  .assistant-page > .assistant-intro .section-kicker {
+    margin-bottom: 7px;
+  }
+  .assistant-page > .assistant-intro h2 {
+    max-width: 100%;
+    font-size: clamp(20px, 6vw, 25px);
+    line-height: 1.2;
+    letter-spacing: -.45px;
+    overflow-wrap: normal;
+  }
+  .assistant-page > .assistant-intro p {
+    max-width: 38rem;
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .assistant-workspace {
+    min-height: 68dvh;
+    border-radius: 15px;
+  }
+  .assistant-transcript {
+    min-height: 190px;
+    padding: 14px 12px;
+  }
+  .assistant-welcome {
+    margin: 24px auto 18px;
+  }
+  .assistant-welcome h3 {
+    max-width: 25rem;
+    margin: 12px auto 0;
+    font-size: 18px;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .assistant-welcome p {
+    max-width: 28rem;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .prompt-suggestions {
+    gap: 7px;
+  }
+  .prompt-suggestions button {
+    max-width: 100%;
+    min-height: 38px;
+    white-space: normal;
+  }
+  .assistant-composer-wrap {
+    padding: 10px 11px max(10px, env(safe-area-inset-bottom));
+  }
+  .assistant-composer-tools {
+    gap: 7px;
+  }
+  .assistant-composer-tools > span {
+    max-width: 48%;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+  .assistant-composer {
+    gap: 7px;
+    padding: 7px;
+  }
+  .assistant-composer textarea {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .topbar { padding-right: 11px; padding-left: 12px; }
+  .topbar h1 { font-size: 13px; }
+  .topbar p { font-size: 9px; max-width: 60vw; }
+  .context-toggle { width: 38px; height: 38px; }
+  .main .page-view { padding-right: 11px; padding-left: 11px; }
+  .main .job-card-top { flex-wrap: wrap; }
+  .match-badge { margin-left: 49px; }
+  .fit-pill { margin-left: 0; }
+  .job-actions { justify-content: stretch; }
+  .job-actions > * { min-height: 38px; }
+  .assistant-page { padding-right: 9px; padding-left: 9px; }
+  .assistant-composer-tools { align-items: flex-start; }
+  .assistant-composer-tools > span { max-width: 48%; font-size: 9px; }
+  .chat-resume-upload { max-width: 70%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .main {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .main .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(35, 22, 49, .04);
+  }
+  .main .page-view {
+    min-height: calc(100dvh - 68px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-wrap { transition: none; }
 }
 @media (max-width: 680px) {
   .main .page-view {

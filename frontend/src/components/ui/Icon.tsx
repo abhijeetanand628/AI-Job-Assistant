@@ -6,6 +6,8 @@ export type IconName =
   | "spark"
   | "plus"
   | "menu"
+  | "message"
+  | "panelRight"
   | "close"
   | "edit"
   | "check"
@@ -40,6 +42,18 @@ const shapes: Record<IconName, ReactNode> = {
   ),
   plus: <path d="M12 5v14M5 12h14" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  message: (
+    <>
+      <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" />
+      <path d="M8 12h.01M12 12h.01M16 12h.01" />
+    </>
+  ),
+  panelRight: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M15 4v16M10 9l-3 3 3 3" />
+    </>
+  ),
   close: <path d="m6 6 12 12M18 6 6 18" />,
   edit: <path d="m16 4 4 4M4 20l4-1 12-12-3-3L5 16l-1 4Z" />,
   check: <path d="m5 12 4 4L19 6" />,
