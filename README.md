@@ -68,10 +68,9 @@ Open PowerShell in the main `Hidani` project folder and run:
 ```powershell
 python -m venv backend\.venv
 backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
-Copy-Item backend\.env.example backend\.env
 ```
 
-The `.env` file is for private settings. Gemini is optional: without a Gemini key, the app can still search its local job list and use its built-in assistant replies. To use Gemini, open `backend\.env` in a text editor and put your key after `GEMINI_API_KEY=`. Keep the key private and do not upload `.env` to GitHub.
+Gemini is optional: without a Gemini key, the app can still search its local job list and use its built-in assistant replies. To use Gemini, create `backend\.env` in a text editor and add `GEMINI_API_KEY=your_key_here`. Keep the key private and do not upload `.env` to GitHub. The root `.gitignore` ignores local `.env` files.
 
 ### 2. Start the backend
 
