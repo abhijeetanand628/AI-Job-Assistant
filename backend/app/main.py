@@ -11,7 +11,7 @@ from app.api.routes import router
 from app.storage.json_store import JsonStore
 
 app = FastAPI(title="AI Job Assistant API", version="1.0.0")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:8443", "http://localhost:8444", "http://127.0.0.1:8443", "http://127.0.0.1:8444"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=settings.CORS_ORIGINS, allow_methods=["*"], allow_headers=["*"])
 app.state.store = JsonStore(settings.DATA_DIR)
 app.include_router(router)
 FRONTEND_DIST = settings.PROJECT_ROOT / "frontend" / "dist"

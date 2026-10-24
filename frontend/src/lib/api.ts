@@ -1,7 +1,9 @@
 import type { Application, Job, Profile, Resume } from "../types";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/+$/, "");
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`/api${path}`, options);
+  const response = await fetch(`${API_BASE}${path}`, options);
   if (!response.ok) {
     const data = await response.json().catch(() => ({}));
     throw new Error(data.detail || `Request failed (${response.status})`);
@@ -47,5 +49,5 @@ export const api = {
       applications: Application[];
       action?: string;
     }>("/chat", json({ message, history, job_ids })),
-  resumeFile: () => `/api/resumes/latest/file`,
+  resumeFile: () => `${API_BASE}/resumes/latest/file`,
 };

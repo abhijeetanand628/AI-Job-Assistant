@@ -110,6 +110,21 @@ Leave this window running too. Open **http://localhost:8444/** in your browser t
 - Resume reading happens on this computer. The uploaded file, extracted contact details, and resume summary are not sent to Gemini. Gemini does receive the messages you type and selected non-contact career details. So, do not type private details into chat if you do not want Gemini to receive them.
 - The app is designed for one local user. It has no sign-in screen, so do not put it on the public internet until access protection has been added.
 
+## Deploy a reviewer demo with Vercel
+
+Vercel will host the React website. The Python API must run separately on a host that keeps its data between restarts. This backend saves the profile, application tracker, and uploaded resume to files. Vercel Functions only have a read-only filesystem plus temporary `/tmp` storage, so using that temporary folder would lose user data. Vercel's one-project multi-service feature is currently a private beta. See [Vercel's Python runtime filesystem limits](https://vercel.com/docs/functions/runtimes) and [Vercel Services availability](https://vercel.com/docs/services).
+
+One straightforward arrangement is Vercel for the frontend and a persistent Python web service for the backend. These steps use Render as the backend example:
+
+1. Create a backend web service from this GitHub repository. Set its **Root Directory** to `backend`, **Build Command** to `pip install -r requirements.txt`, and **Start Command** to `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+2. Attach persistent storage to the backend at `/var/data`, then set `HIDANI_DATA_DIR=/var/data`. Without persistent storage, uploaded resumes and saved profile/tracker changes disappear when a service restarts or redeploys. Render persistent disks require a paid web service; check [Render's current disk documentation](https://render.com/docs/disks) before choosing a plan.
+3. In the backend host's private environment settings, set `GEMINI_API_KEY` to a newly issued key and `CORS_ORIGINS` to the exact Vercel site origin, such as `https://your-project.vercel.app` (no trailing slash). Never put the Gemini key in a `VITE_` variable: Vite variables are included in browser code.
+4. Import the same repository into Vercel and set **Root Directory** to `frontend`. Use the Vite defaults: install with `npm install`, build with `npm run build`, and output directory `dist`.
+5. In Vercel's environment settings, add `VITE_API_BASE_URL` with the backend address ending in `/api`, for example `https://your-api.onrender.com/api`. Redeploy the frontend after adding it. The `frontend/vercel.json` file handles page refreshes on nested routes.
+6. Check `https://your-api.onrender.com/api/health`, then open the Vercel site and test the profile, a sample resume upload, and the application tracker. Redeploy the backend and confirm the sample changes remain saved.
+
+**Privacy before sharing the link:** this version has no sign-in and stores one shared profile, resume, and application tracker. Anyone who can reach the backend can read or change that data. Use only fake demo information until authentication and per-user storage are added; do not upload your personal resume to a public demo. Vercel hosting does not provide that backend access protection automatically.
+
 ## How job matching works
 
 The app compares jobs with the target role and preferences you enter, your experience, and skills found in your resume. It ranks the results and gives a short reason for each match. A listing does not have to match every resume skill. Jobs with weaker matches may still appear in an **Explore** section so useful opportunities are not hidden.
