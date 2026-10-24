@@ -13,7 +13,7 @@ This README explains the project in simple steps. You do not need to know how th
 5. You can save a job to **Applications**. If you ask the assistant to apply, it saves the job and gives you the employer's application link.
 6. After you submit the employer's form yourself, tell the assistant `I applied to job 1`. It will mark that job as **Applied** and save the date.
 
-The assistant does not fill in or submit forms on other companies' websites. It also cannot read a scanned, picture-only PDF yet; the PDF must contain selectable text.
+Gemini powers open-ended assistant questions when a key is configured. The project does not include an API key. Without one, the website, resume parsing, local job search, profile, and application tracker still run; open-ended Gemini answers are unavailable. The assistant does not fill in or submit forms on other companies' websites. It also cannot read a scanned, picture-only PDF yet; the PDF must contain selectable text.
 
 ## The project in one picture
 
@@ -70,7 +70,15 @@ python -m venv backend\.venv
 backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 ```
 
-Gemini is optional: without a Gemini key, the app can still search its local job list and use its built-in assistant replies. To use Gemini, create `backend\.env` in a text editor and add `GEMINI_API_KEY=your_key_here`. Keep the key private and do not upload `.env` to GitHub. The root `.gitignore` ignores local `.env` files.
+Gemini is optional. Job search, resume parsing, profile editing, and application tracking work without a key. Open-ended assistant questions need a Gemini API key. The repository deliberately does not contain one.
+
+To enable Gemini on your computer, create a file named `backend\.env` and put this line in it, replacing the example text with your own key:
+
+```text
+GEMINI_API_KEY=your_key_here
+```
+
+Keep that file private. The root `.gitignore` ignores it, so Git will not upload it. Never paste a real key into this README, a source file, a public issue, or a commit. If you do not have a key, skip this step; the rest of the app still runs. If you are reviewing someone else's submission, use a key provided through your organization's approved private secret-sharing method, or use your own Google AI Studio key. Do not expect the submitter to publish a personal key in the repository.
 
 ### 2. Start the backend
 
@@ -142,10 +150,10 @@ Docker can package the website and backend together. Install Docker Desktop firs
 
 ```powershell
 docker build -t ai-job-assistant .
-docker run --rm -p 8001:8001 -v ai-job-assistant-data:/var/lib/ai-job-assistant -e GEMINI_API_KEY=YOUR_KEY ai-job-assistant
+docker run --rm -p 8001:8001 -v ai-job-assistant-data:/var/lib/ai-job-assistant ai-job-assistant
 ```
 
-Replace `YOUR_KEY` with your private Gemini key, or leave the key out to use the local fallback. Open **http://localhost:8001/**. The named Docker volume keeps profile, resume, and application data when the container stops. Building or running Docker on your computer does **not** publish the app to the internet.
+This starts without Gemini. To enable Gemini in Docker, first create `backend\.env` as described above, then add `--env-file backend\.env` to the `docker run` command. This reads the key from your ignored local file instead of putting it in the terminal command. Open **http://localhost:8001/**. The named Docker volume keeps profile, resume, and application data when the container stops. Building or running Docker on your computer does **not** publish the app to the internet.
 
 ## API guide (for people reading the code)
 
